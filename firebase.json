@@ -1,0 +1,45 @@
+
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/admin/login",
+        "destination": "/admin-login.html"
+      },
+      {
+        "source": "/admin/dashboard",
+        "destination": "/admin-dashboard.html"
+      },
+      {
+        "source": "/admin/query-detail",
+        "destination": "/admin-query-detail.html"
+      },
+      {
+        "source": "/admin",
+        "destination": "/admin.html"
+      },
+      {
+        "source": "/comunicados",
+        "destination": "/comunicados.html"
+      },
+      {
+        "source": "/dashboard",
+        "destination": "/dashboard.html"
+      },
+      {
+        "source": "/register",
+        "destination": "/register.html"
+      },
+      {
+        "source": "/",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

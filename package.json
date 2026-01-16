@@ -1,0 +1,26 @@
+{
+  "name": "regusurconsuloacef",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build:css": "postcss ./globals.css -o ./dist/output.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "firebase-admin": "^13.6.0",
+    "jquery": "^3.7.1",
+    "postcss-cli": "^11.0.1",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "jest": "^30.2.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  }
+}

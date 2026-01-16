@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - OACEF</title>
+    <link rel="stylesheet" href="globals.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="min-h-screen bg-background font-body antialiased">
+    <div class="flex min-h-svh w-full">
+        <aside class="group peer hidden md:block text-sidebar-foreground w-[--sidebar-width] transition-all duration-300" style="--sidebar-width: 16rem;">
+            <div class="fixed inset-y-0 left-0 z-10 flex h-svh w-[--sidebar-width] flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300">
+                <div class="flex h-16 items-center justify-center p-2 gap-2 border-b border-sidebar-border">
+                    <img alt="Logo DIRIS" loading="lazy" width="40" height="40" decoding="async" class="rounded-full shadow-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDXVhFG7luDb7mBas57NUYQWeYzVErkp0-kA&amp;s">
+                    <span class="font-headline text-lg font-semibold text-sidebar-primary">OACEF</span>
+                </div>
+                <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto p-2">
+                    <ul class="flex w-full min-w-0 flex-col gap-1">
+                        <li>
+                            <a class="flex w-full items-center gap-2 rounded-md p-2 text-left text-sm h-10 bg-sidebar-accent text-sidebar-accent-foreground font-medium" href="admin.html">
+                                <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="flex w-full items-center gap-2 rounded-md p-2 text-left text-sm h-10 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground" href="comunicados.html">
+                                <i data-lucide="bell" class="h-4 w-4"></i>
+                                <span>Enviar Comunicado</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex flex-col gap-2 p-2 border-t border-sidebar-border">
+                    <div id="admin-user-info" class="p-2 min-h-[52px] flex items-center gap-3 text-sm text-sidebar-foreground overflow-hidden">
+                        <!-- User info populated by JS -->
+                    </div>
+                    <button id="logout-button" class="flex w-full items-center gap-2 rounded-md p-2 text-left text-sm h-10 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                        <i data-lucide="log-out" class="h-4 w-4"></i>
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex flex-1 flex-col overflow-hidden md:ml-[--sidebar-width]">
+            <header class="flex h-16 shrink-0 items-center justify-between gap-4 border-b bg-primary-pattern px-4 text-primary-foreground sm:px-6">
+                <div class="flex items-center gap-4">
+                    <button class="inline-flex items-center justify-center md:hidden h-7 w-7 text-primary-foreground hover:bg-primary-foreground/10 rounded-md">
+                        <i data-lucide="panel-left" class="h-4 w-4"></i>
+                        <span class="sr-only">Toggle Sidebar</span>
+                    </button>
+                    <img alt="Logo DIRIS Viceministerio" loading="lazy" width="200" height="35" decoding="async" class="hidden md:block" src="https://i.ibb.co/yn5DsfL2/Logo-DIRIS-Viceministerio-png.png" style="color: transparent;">
+                </div>
+                <div class="hidden md:flex flex-1 justify-center items-center overflow-hidden">
+                    <h1 class="text-lg font-headline tracking-wider truncate">SISTEMA DE GESTION DE CONSULTAS TECNICAS OACEF-DMID-DIRIS/LS</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="notification-bell" class="h-10 w-10 relative rounded-md text-primary-foreground hover:bg-primary-foreground/10">
+                        <i data-lucide="bell" class="h-6 w-6 m-auto"></i>
+                        <span id="notification-dot" class="absolute top-2 right-2 h-3 w-3 rounded-full bg-red-500 border-2 border-primary-pattern hidden"></span>
+                        <span class="sr-only">Ver Comunicados</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <div class="space-y-8">
+                    <div class="bg-primary-pattern text-primary-foreground p-4 rounded-lg shadow-md flex items-center gap-4">
+                        <i data-lucide="layout-dashboard" class="h-8 w-8"></i>
+                        <div>
+                            <h1 class="text-3xl font-bold font-headline tracking-tight">Panel de Administración</h1>
+                            <p class="text-primary-foreground/80">Gestione y monitoree todas las consultas del sistema.</p>
+                        </div>
+                    </div>
+                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        <div class="stat-card"><div class="stat-card-content"><p class="stat-card-title">Consultas Totales</p><h3 id="total-count" class="stat-card-value">-</h3></div><div class="stat-card-icon bg-blue-100 text-blue-600"><i data-lucide="file-text"></i></div></div>
+                        <div class="stat-card"><div class="stat-card-content"><p class="stat-card-title">Pendientes</p><h3 id="pending-count" class="stat-card-value">-</h3></div><div class="stat-card-icon bg-red-100 text-red-600"><i data-lucide="clock"></i></div></div>
+                        <div class="stat-card"><div class="stat-card-content"><p class="stat-card-title">Asignadas</p><h3 id="assigned-count" class="stat-card-value">-</h3></div><div class="stat-card-icon bg-yellow-100 text-yellow-600"><i data-lucide="user-check"></i></div></div>
+                        <div class="stat-card"><div class="stat-card-content"><p class="stat-card-title">Atendidas</p><h3 id="attended-count" class="stat-card-value">-</h3></div><div class="stat-card-icon bg-green-100 text-green-600"><i data-lucide="circle-check-big"></i></div></div>
+                    </div>
+                    
+                    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+                         <div class="p-6">
+                            <h2 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+                               <i data-lucide="list" class="h-6 w-6"></i>
+                               <span>Listado de Consultas</span>
+                            </h2>
+                            <div class="flex flex-col md:flex-row items-center gap-4 pt-4">
+                               <select id="filter-status" class="input-form-admin w-full md:w-[180px]">
+                                    <option value="">Todos los estados</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Asignado">Asignado</option>
+                                    <option value="Atendido">Atendido</option>
+                                </select>
+                                <input id="filter-dni" class="input-form-admin w-full md:w-auto md:max-w-sm" placeholder="Filtrar por DNI...">
+                                <input id="filter-establecimiento" class="input-form-admin w-full md:w-auto md:max-w-sm" placeholder="Filtrar por establecimiento...">
+                                <button id="export-excel" class="btn btn-excel w-full md:w-auto ml-auto">
+                                    <i data-lucide="download" class="mr-2 h-4 w-4"></i>Exportar a Excel
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0">
+                            <div id="table-wrapper" class="rounded-md border overflow-x-auto">
+                                <!-- Table populated by JS -->
+                            </div>
+                        </div>
+                        <div id="pagination-controls" class="p-6 pt-0 flex items-center justify-between">
+                           <!-- Pagination populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- MODALS -->
+    <div id="attend-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+        <div class="bg-card rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b p-6"><h2 class="text-2xl font-bold">Gestionar Consulta</h2><button id="close-modal" class="p-2 rounded-lg hover:bg-muted"><i data-lucide="x" class="h-6 w-6"></i></button></div>
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div><p class="text-sm font-medium text-muted-foreground">Usuario</p><p id="modal-user" class="text-lg font-semibold"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">DNI</p><p id="modal-dni" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Establecimiento</p><p id="modal-establecimiento" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Expediente</p><p id="modal-expediente" class="text-lg"></p></div>
+                </div>
+                <div><p class="text-sm font-medium text-muted-foreground mb-2">Tema / Consulta</p><div id="modal-tema" class="bg-muted rounded-lg p-4 text-base"></div></div>
+                <div><label for="respuesta" class="text-sm font-medium text-muted-foreground mb-2 block">Respuesta / Observación Final</label><textarea id="respuesta" rows="8" class="input-form-admin w-full" placeholder="Escribe aquí la respuesta oficial..."></textarea></div>
+            </div>
+            <div class="border-t p-6 flex items-center justify-end gap-4">
+                <button id="cancel-attend" class="btn btn-secondary">Cancelar</button>
+                <button id="send-response" class="btn btn-primary"><i data-lucide="send" class="h-4 w-4 mr-2"></i> Enviar Respuesta</button>
+            </div>
+        </div>
+    </div>
+    <div id="user-details-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">
+        <div class="bg-card rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between border-b p-6"><h2 class="text-2xl font-bold">Detalles del Usuario</h2><button id="close-user-modal" class="p-2 rounded-lg hover:bg-muted"><i data-lucide="x" class="h-6 w-6"></i></button></div>
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div><p class="text-sm font-medium text-muted-foreground">Nombre completo</p><p id="user-fullname" class="text-lg font-semibold"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">DNI</p><p id="user-dni" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Teléfono</p><p id="user-phone" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Correo</p><p id="user-email" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Cargo</p><p id="user-cargo" class="text-lg"></p></div>
+                    <div><p class="text-sm font-medium text-muted-foreground">Establecimiento de Origen</p><p id="user-establecimiento-origen" class="text-lg"></p></div>
+                </div>
+                <div><p class="text-sm font-medium text-muted-foreground mb-2">Fecha de registro</p><p id="user-registro" class="text-base bg-muted rounded-lg p-4"></p></div>
+            </div>
+            <div class="border-t p-6 flex justify-end"><button id="close-user-modal-btn" class="btn btn-primary">Cerrar</button></div>
+        </div>
+    </div>
+
+    <audio id="notification-sound" src="./notification.mp3" preload="auto"></audio>
+    <audio id="assignment-sound" src="./assignment.mp3" preload="auto"></audio> <!-- New sound for assignments -->
+    <script type="module" src="admin-dashboard-v2.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

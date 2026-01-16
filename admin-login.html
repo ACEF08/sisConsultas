@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso del Personal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="globals.css" rel="stylesheet">
+</head>
+<body class="bg-muted/40">
+
+    <div class="flex min-h-screen w-full flex-col">
+        <header class="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-4 border-b bg-primary-pattern px-4 text-primary-foreground shadow-md backdrop-blur-sm md:px-6">
+            <div class="flex items-center gap-4">
+                <img alt="Logo DIRIS Viceministerio" loading="lazy" width="200" height="35" decoding="async" data-nimg="1" class="hidden md:block" style="color:transparent" src="https://i.ibb.co/yn5DsfL2/Logo-DIRIS-Viceministerio-png.png">
+            </div>
+            <div class="hidden md:flex flex-1 justify-center items-center overflow-hidden">
+                <h1 class="text-lg font-headline tracking-wider truncate">SISTEMA DE GESTION DE CONSULTAS TECNICAS OACEF-DMID-DIRIS/LS</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2" href="/">
+                    Realizar Nueva Consulta
+                </a>
+            </div>
+        </header>
+
+        <main class="flex flex-1 flex-col items-center justify-center p-4 md:p-8">
+            <div class="w-full max-w-sm">
+                <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full overflow-hidden">
+                    <div class="bg-primary-pattern p-4">
+                        <div class="flex justify-center items-center">
+                            <img alt="Logo DIRIS" loading="lazy" width="56" height="56" decoding="async" data-nimg="1" class="rounded-full object-cover shadow-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDXVhFG7luDb7mBas57NUYQWeYzVErkp0-kA&s" style="color: transparent;">
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-1.5 p-6 items-center text-center pt-8">
+                        <div class="font-semibold tracking-tight font-headline text-2xl">Acceso del Personal</div>
+                        <p class="text-sm text-muted-foreground">Ingrese sus credenciales para acceder al panel.</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <form id="login-form" class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium leading-none" for="email">Correo Electrónico</label>
+                                <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background" placeholder="su.correo@oacef.gob.pe" id="email" name="email" type="email" required>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium leading-none" for="password">Contraseña</label>
+                                <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background" placeholder="********" id="password" name="password" type="password" required>
+                            </div>
+                            <p id="error-message" class="text-red-500 text-sm hidden"></p>
+                            <button id="submit-button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in mr-2 h-4 w-4"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line></svg>
+                                Ingresar
+                            </button>
+                        </form>
+                    </div>
+                     <div class="items-center flex justify-center bg-muted/50 p-4">
+                        <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium ring-offset-background text-muted-foreground text-sm underline-offset-4 hover:underline h-10 px-4 py-2" href="/">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left mr-2 h-4 w-4"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                            Volver al portal público
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyBw9UPb-F6Scxa6sjI27lRE-xkHwtkd12Q",
+          authDomain: "sisacef.firebaseapp.com",
+          projectId: "sisacef",
+          storageBucket: "sisacef.firebasestorage.app",
+          messagingSenderId: "729673709435",
+          appId: "1:729673709435:web:48a6f1f7d1b32efef96fde"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = document.getElementById('submit-button');
+        const originalButtonHTML = submitButton.innerHTML;
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            errorMessage.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Ingresando...';
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    window.location.href = 'admin-dashboard.html';
+                })
+                .catch((error) => {
+                    errorMessage.textContent = 'Credenciales incorrectas. Por favor, intente de nuevo.';
+                    errorMessage.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonHTML;
+                });
+        });
+    </script>
+
+</body>
+</html>
