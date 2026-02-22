@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="EcIlsGb6pHEDJ955QBV48ZqTmPGTUFCzBJlm0oLLok8" />
+    <title>Portal de Consultas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="output.css" rel="stylesheet">
+</head>
+<body class="bg-muted/40">
+
+    <div class="flex min-h-screen w-full flex-col bg-muted/40">
+        <header class="sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-4 border-b bg-primary-pattern px-4 text-primary-foreground shadow-md backdrop-blur-sm md:px-6">
+            <div class="flex items-center gap-4">
+                <img alt="Logo DIRIS Viceministerio" loading="lazy" width="200" height="35" decoding="async" data-nimg="1" class="hidden md:block" style="color:transparent" src="https://i.ibb.co/yn5DsfL2/Logo-DIRIS-Viceministerio-png.png">
+            </div>
+            <div class="hidden md:flex flex-1 justify-center items-center overflow-hidden">
+                <h1 class="text-lg font-headline tracking-wider truncate">SISTEMA DE GESTION DE CONSULTAS TECNICAS ODDLS</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <a class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 px-4 py-2" href="admin-login.html">
+                    Acceso Personal
+                </a>
+            </div>
+        </header>
+
+        <main class="flex flex-1 flex-col items-center justify-center p-4 md:p-8">
+            <div class="w-full max-w-xl">
+                <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full overflow-hidden">
+                    <div class="bg-primary-pattern p-4">
+                        <div class="flex justify-center items-center">
+                            <img alt="Logo DIRIS" loading="lazy" width="56" height="56" decoding="async" data-nimg="1" class="rounded-full object-cover shadow-lg" style="color:transparent" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDXVhFG7luDb7mBas57NUYQWeYzVErkp0-kA&s">
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-1.5 p-6 items-center text-center pt-8">
+                        <div class="font-semibold tracking-tight font-headline text-2xl">Portal de Consultas</div>
+                        <p class="text-sm text-muted-foreground">Ingrese su DNI para registrar una nueva consulta o ver el estado de sus consultas existentes.</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <form id="dni-form" class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="dni">Número de DNI</label>
+                                <input type="text" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm" placeholder="Ej: 12345678" maxlength="8" id="dni" name="dni" required>
+                            </div>
+                             <p id="error-message" class="text-red-500 text-sm mb-4 hidden"></p>
+                            <button id="submit-button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-fingerprint mr-2 h-4 w-4"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"></path><path d="M14 13.12c0 2.38 0 6.38-1 8.88"></path><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"></path><path d="M2 12a10 10 0 0 1 18-6"></path><path d="M2 16h.01"></path><path d="M21.8 16c.2-2 .131-5.354 0-6"></path><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"></path><path d="M8.65 22c.21-.66.45-1.32.57-2"></path><path d="M9 6.8a6 6 0 0 1 9 5.2v2"></path></svg>
+                                Validar DNI
+                            </button>
+                        </form>
+                    </div>
+                    <div class="flex items-center p-6 pt-0">
+                        <p class="text-xs text-muted-foreground text-center w-full">Toda la información proporcionada tiene carácter de declaración jurada y está sujeta a fiscalización posterior.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="flex items-center justify-center p-4 text-sm text-muted-foreground">
+            © 2026 ODDLS. Todos los derechos reservados.
+        </footer>
+    </div>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const dniForm = document.getElementById('dni-form');
+        const dniInput = document.getElementById('dni');
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = document.getElementById('submit-button');
+        const originalButtonText = submitButton.innerHTML;
+
+        dniForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const dni = dniInput.value;
+            errorMessage.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Verificando...';
+
+            if (!/^[0-9]{8}$/.test(dni)) {
+                errorMessage.textContent = 'Por favor, ingrese un DNI válido de 8 dígitos.';
+                errorMessage.classList.remove('hidden');
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+                return;
+            }
+
+            try {
+                const userDocRef = doc(db, 'users', dni);
+                const userDoc = await getDoc(userDocRef);
+
+                if (userDoc.exists()) {
+                    window.location.href = `dashboard.html?dni=${dni}`;
+                } else {
+                    window.location.href = `register.html?dni=${dni}`;
+                }
+            } catch (error) {
+                console.error("Error al verificar el DNI:", error);
+                errorMessage.textContent = 'Ocurrió un error al verificar. Por favor, intente de nuevo.';
+                errorMessage.classList.remove('hidden');
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            }
+        });
+    </script>
+</body>
+</html>

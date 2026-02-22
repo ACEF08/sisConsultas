@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build:css": "postcss ./globals.css -o ./dist/output.css"
+    "clean": "rimraf ./dist",
+    "copy:assets": "cpx \"{*.html,*.js,*.css,*.png,*.ico,CNAME}\" ./dist",
+    "build:css": "postcss ./globals.css -o ./dist/output.css",
+    "build": "npm run clean && npm run build:css && npm run copy:assets"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "firebase": "^12.9.0",
     "firebase-admin": "^13.6.0",
     "jquery": "^3.7.1",
     "postcss-cli": "^11.0.1",
@@ -19,8 +23,10 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.23",
+    "cpx": "^1.5.0",
     "jest": "^30.2.0",
     "postcss": "^8.5.6",
+    "rimraf": "^5.0.7",
     "tailwindcss": "^4.1.18"
   }
 }

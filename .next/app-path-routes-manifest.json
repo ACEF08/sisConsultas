@@ -1,8 +1,0 @@
-{
-  "/_global-error/page": "/_global-error",
-  "/_not-found/page": "/_not-found",
-  "/admin/login/page": "/admin/login",
-  "/admin/page": "/admin",
-  "/consultas/page": "/consultas",
-  "/page": "/"
-}
